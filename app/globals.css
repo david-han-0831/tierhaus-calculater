@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #1d1d1f;
+  --muted: #6e6e73;
+  --card: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.08);
+  --sidebar: #f5f5f7;
+  --input-bg: #f5f5f7;
+  /* 메인: 파스텔 블루 */
+  --primary: #7eb8da;
+  --primary-light: #b8d9eb;
+  --primary-dark: #5a9fc4;
+  /* 서브: 파스텔 블루와 어울리는 그레이·민트 */
+  --sub: #e8f2f6;
+  --sub-muted: #c5dce6;
+  --accent-lavender: #e8e0f5;
+  --accent-mint: #d8ebe6;
+  --pastel-blue: #b8d9eb;
+  --pastel-green: #d8ebe6;
+  --pastel-violet: #e5e0f0;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --radius-lg: 16px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+}
