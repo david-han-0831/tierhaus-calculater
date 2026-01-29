@@ -14,7 +14,7 @@ import {
   GoogleAuthProvider,
   signOut as firebaseSignOut,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 
 export type UserRole = "admin" | "user";
@@ -42,20 +42,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const userRef = doc(db, "users", firebaseUser.uid);
           const snap = await getDoc(userRef);
           if (!snap.exists()) {
-            await setDoc(userRef, {
-              email: firebaseUser.email ?? "",
-              displayName: firebaseUser.displayName ?? "",
-              photoURL: firebaseUser.photoURL ?? null,
-              role: "user",
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            });
+            await setDoc(
+              userRef,
+              {
+                email: firebaseUser.email ?? "",
+                displayName: firebaseUser.displayName ?? "",
+                photoURL: firebaseUser.photoURL ?? null,
+                role: "user",
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
+              },
+              { merge: true }
+            );
             setUserRole("user");
           } else {
             const role = snap.data()?.role;
             setUserRole(role === "admin" ? "admin" : "user");
           }
-        } catch {
+        } catch (err) {
+          console.error("[AuthContext] Firestore 사용자 문서 생성/조회 실패:", err);
           setUserRole("user");
         }
       } else {
